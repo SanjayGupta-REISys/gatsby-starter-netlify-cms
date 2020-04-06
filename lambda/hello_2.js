@@ -10,29 +10,10 @@
   }
 }*/
 
-import { get } from 'https';
-
-get('https://www.sbir.gov/api/awards.xml?keyword=sbir', (resp) => {
-  let data = '';
-
-  // A chunk of data has been recieved.
-  resp.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  // The whole response has been received. Print out the result.
-  resp.on('end', () => {
-    console.log(JSON.parse(data).explanation);
-  });
-
-}).on("error", (err) => {
-  console.log("Error: " + err.message);
-});
-
 
 
 // Now you are ready to access this API from anywhere in your Gatsby app! For example, in any event handler or lifecycle method, insert:
-// fetch("/.netlify/functions/hello")
-//    .then(response => response.json())
-//    .then(console.log)
+ fetch("https://www.ussbir.io/api/awards.xml?keyword=sbir")
+    .then(response => response.json())
+    .then(console.log)
 // For more info see: https://www.gatsbyjs.org/blog/2018-12-17-turning-the-static-dynamic/#static-dynamic-is-a-spectrum
