@@ -1,19 +1,42 @@
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
-/*module.exports.handler = async function(event, context) {
-  console.log("queryStringParameters", event.queryStringParameters)
+/*export async function handler(event, context) {
   return {
-    // return null to show no errors
-    statusCode: 200, // http status code
+    statusCode: 200,
+    body: JSON.stringify({ message: `Hello world ${Math.floor(Math.random() * 10)}` })
+  };
+}*/
+
+
+import fetch from 'node-fetch'
+
+const API_ENDPOINT = 'https://www.ussbir.io/api/awards.xml?keyword=sbir'
+
+export async function handler(event, context) {
+  let response
+  try {
+    response = await fetch(API_ENDPOINT)
+    // handle response
+  } catch (err) {
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: err.message
+      })
+    }
+  }
+
+  return {
+    statusCode: 200,
     body: JSON.stringify({
-      msg: "Hello, World! This is better " + Math.round(Math.random() * 10)
+      data: response
     })
   }
-}*/
+}
 
 
 
 // Now you are ready to access this API from anywhere in your Gatsby app! For example, in any event handler or lifecycle method, insert:
- fetch("https://www.ussbir.io/api/awards.xml?keyword=sbir")
+/* fetch("https://www.ussbir.io/api/awards.xml?keyword=sbir")
     .then(response => response.json())
-    .then(console.log)
+    .then(console.log)*/
 // For more info see: https://www.gatsbyjs.org/blog/2018-12-17-turning-the-static-dynamic/#static-dynamic-is-a-spectrum
